@@ -4,6 +4,8 @@ import myau.Myau;
 import myau.event.EventManager;
 import myau.events.KnockbackEvent;
 import myau.events.SafeWalkEvent;
+import myau.events.StepEvent;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
@@ -91,6 +93,13 @@ public abstract class MixinEntity {
             return event.isSafeWalk();
         } else {
             return boolean1;
+        }
+    }
+
+    @Inject(method = "moveEntity", at=@At("HEAD"))
+    private void moveEntity(double x, double y, double z, CallbackInfo ci) {
+        if ((Object) this == Minecraft.getMinecraft().thePlayer) {
+            EventManager.instance.call(new StepEvent());
         }
     }
 }

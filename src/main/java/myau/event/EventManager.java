@@ -10,13 +10,17 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.logging.Handler;
 
 /**
  * @author DarkMagician6
  * @since February 2, 2014
  */
 public final class EventManager {
+    public static EventManager instance = new EventManager();
+
     /**
      * HashMap containing all the registered MethodData sorted on the event parameters of the methods.
      */
