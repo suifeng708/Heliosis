@@ -1,0 +1,158 @@
+[11:26:35] [main/INFO] (LaunchWrapper) Loading tweak class name net.minecraftforge.fml.common.launcher.FMLTweaker
+[11:26:35] [main/INFO] (LaunchWrapper) Using primary tweak class name net.minecraftforge.fml.common.launcher.FMLTweaker
+[11:26:35] [main/INFO] (LaunchWrapper) Loading tweak class name org.spongepowered.asm.launch.MixinTweaker
+[11:26:35] [main/INFO] (mixin) SpongePowered MIXIN Subsystem Version=0.7.11 Source=file:/C:/Users/DELL/.gradle/caches/modules-2/files-2.1/org.spongepowered/mixin/0.7.11-SNAPSHOT/7a670207bdb97db418118ad1e9bb42424ff3776d/mixin-0.7.11-SNAPSHOT.jar Service=LaunchWrapper Env=CLIENT
+[11:26:36] [main/INFO] (LaunchWrapper) Calling tweak class net.minecraftforge.fml.common.launcher.FMLTweaker
+[11:26:36] [main/INFO] (FML) Forge Mod Loader version 11.15.1.2318 for Minecraft 1.8.9 loading
+[11:26:36] [main/INFO] (FML) Java is OpenJDK 64-Bit Server VM, version 1.8.0_482, running on Windows 11:amd64:10.0, installed at C:\Users\DELL\.jdks\corretto-1.8.0_482\jre
+[11:26:36] [main/INFO] (FML) Managed to load a deobfuscated Minecraft name- we are in a deobfuscated environment. Skipping runtime deobfuscation
+[11:26:36] [main/WARN] (FML) The coremod me.djtheredstoner.devauth.forge.legacy.DevAuthLoadingPlugin does not have a MCVersion annotation, it may cause issues with this version of Minecraft
+[11:26:36] [main/INFO] (LaunchWrapper) Calling tweak class org.spongepowered.asm.launch.MixinTweaker
+[11:26:36] [main/INFO] (mixin) Compatibility level set to JAVA_8
+[11:26:36] [main/INFO] (mixin) Initialised Mixin FML Remapper Adapter with net.minecraftforge.fml.common.asm.transformers.deobf.FMLDeobfuscatingRemapper@3bcd05cb
+[11:26:36] [main/INFO] (LaunchWrapper) Loading tweak class name net.minecraftforge.fml.common.launcher.FMLInjectionAndSortingTweaker
+[11:26:36] [main/INFO] (LaunchWrapper) Loading tweak class name net.minecraftforge.fml.common.launcher.FMLDeobfTweaker
+[11:26:36] [main/INFO] (LaunchWrapper) Loading tweak class name org.spongepowered.asm.mixin.EnvironmentStateTweaker
+[11:26:36] [main/INFO] (LaunchWrapper) Calling tweak class net.minecraftforge.fml.common.launcher.FMLInjectionAndSortingTweaker
+[11:26:36] [main/INFO] (LaunchWrapper) Calling tweak class net.minecraftforge.fml.common.launcher.FMLInjectionAndSortingTweaker
+[11:26:36] [main/INFO] (LaunchWrapper) Calling tweak class net.minecraftforge.fml.relauncher.CoreModManager$FMLPluginWrapper
+[11:26:36] [main/ERROR] (FML) The binary patch set is missing. Either you are in a development environment, or things are not going to work!
+[11:26:38] [main/ERROR] (FML) FML appears to be missing any signature data. This is not a good thing
+[11:26:38] [main/INFO] (LaunchWrapper) Calling tweak class net.minecraftforge.fml.relauncher.CoreModManager$FMLPluginWrapper
+[11:26:38] [main/INFO] (LaunchWrapper) Calling tweak class net.minecraftforge.fml.relauncher.CoreModManager$FMLPluginWrapper
+[11:26:38] [main/INFO] (LaunchWrapper) Calling tweak class org.spongepowered.asm.mixin.EnvironmentStateTweaker
+[11:26:38] [main/INFO] (LaunchWrapper) Calling tweak class net.minecraftforge.fml.common.launcher.FMLDeobfTweaker
+[11:26:39] [main/INFO] (LaunchWrapper) Loading tweak class name net.minecraftforge.fml.common.launcher.TerminalTweaker
+[11:26:39] [main/INFO] (LaunchWrapper) Calling tweak class net.minecraftforge.fml.common.launcher.TerminalTweaker
+[11:26:39] [main/INFO] (mixin) Remapping refMap mixins.myau.refmap.json using C:\Users\DELL\.gradle\caches\essential-loom\1.8.9\de.oceanlabs.mcp.mcp_stable.1_8_9.22-1.8.9-forge-1.8.9-11.15.1.2318-1.8.9\mappings-srg-named.srg
+[11:26:39] [main/INFO] (STDOUT) [myau.init.FMLLoadingPlugin:getMixins:75]: Found classes at file:/D:/OpenMyau-Plus-main%20(1)/build/classes/java/main/myau/init/FMLLoadingPlugin.class
+[11:26:39] [main/INFO] (STDOUT) [myau.init.FMLLoadingPlugin:getMixins:82]: Base directory found at D:\OpenMyau-Plus-main (1)\build\classes\java\main
+[11:26:39] [main/INFO] (STDOUT) [myau.init.FMLLoadingPlugin:walkDir:94]: Trying to find mixins from directory
+[11:26:39] [main/INFO] (STDOUT) [myau.init.FMLLoadingPlugin:getMixins:88]: Found mixins: [IAccessorC03PacketPlayer, IAccessorC0DPacketCloseWindow, IAccessorC17PacketCustomPayload, IAccessorEntity, IAccessorEntityLivingBase, IAccessorEntityPlayer, IAccessorEntityRenderer, IAccessorGuiChat, IAccessorGuiScreen, IAccessorItemRendererAnimations, IAccessorItemSword, IAccessorKeyBinding, IAccessorMinecraft, IAccessorPlayerControllerMP, IAccessorRenderManager, IAccessorS12PacketEntityVelocity, IAccessorS27PacketExplosion, IAccessorTimer, MixinAbstractClientPlayer, MixinBlock, MixinBlockBush, MixinBlockGrass, MixinBlockLadder, MixinBlockLeaves, MixinBlockModelRenderer, MixinBlockPane, MixinBlockRendererDispatcher, MixinBlockWeb, MixinEntity, MixinEntityLivingBase, MixinEntityLivingBaseAnimations, MixinEntityPlayer, MixinEntityPlayerSP, MixinEntityRenderer, MixinFontRenderer, MixinFovHandler, MixinGuiChat, MixinGuiIngame, MixinGuiIngameForge, MixinGuiNewChat, MixinItemRendererAnimations, MixinItemStack, MixinKeyBinding, MixinMinecraft, MixinNetworkManager, MixinPlayerControllerMP, MixinRendererLivingEntity, MixinRenderManager, MixinVisGraph, MixinWorld, MixinWorldRenderer]
+[11:26:41] [main/WARN] (mixin) Error loading class: club/sk1er/patcher/util/fov/FovHandler (java.lang.ClassNotFoundException: The specified class 'club.sk1er.patcher.util.fov.FovHandler' was not found)
+[11:26:41] [main/INFO] (LaunchWrapper) Launching wrapped minecraft {net.minecraft.client.main.Main}
+[11:26:42] [main/INFO] (DevAuth) DevAuth disabled, not logging in!
+[11:26:45] [main/INFO] (STDOUT) [net.minecraft.client.main.Main:main:57]: Completely ignored arguments: [--mixin, mixins.myau.json]
+[11:26:45] [main/INFO] (Minecraft) Setting user: Player843
+[11:26:50] [main/INFO] (STDOUT) [myau.init.Initializer:<init>:5]: Heliosis BUILD BY NESPOLA
+[11:26:50] [main/INFO] (STDOUT) [myau.init.Initializer:<init>:6]: Join the Discord: https://dsc.gg/nespola
+[11:26:50] [main/INFO] (STDOUT) [myau.init.Initializer:<init>:7]: Meow! =^._.^= ∫
+[11:26:50] [main/INFO] (Minecraft) LWJGL Version: 2.9.4
+[11:26:51] [main/WARN] (FML) =============================================================
+[11:26:51] [main/WARN] (FML) MOD HAS DIRECT REFERENCE System.exit() THIS IS NOT ALLOWED REROUTING TO FML!
+[11:26:51] [main/WARN] (FML) Offendor: com/sun/jna/Native.main([Ljava/lang/String;)V
+[11:26:51] [main/WARN] (FML) Use FMLCommonHandler.exitJava instead
+[11:26:51] [main/WARN] (FML) =============================================================
+[11:26:53] [main/INFO] (STDOUT) [net.minecraftforge.fml.client.SplashProgress:start:246]: ---- Minecraft Crash Report ----
+// I let you down. Sorry :(
+
+Time: 26-7-3 上午11:26
+Description: Loading screen debug info
+
+This is just a prompt for computer specs to be printed. THIS IS NOT A ERROR
+
+
+A detailed walkthrough of the error, its code path and all known details is as follows:
+---------------------------------------------------------------------------------------
+
+-- System Details --
+Details:
+	Minecraft Version: 1.8.9
+	Operating System: Windows 11 (amd64) version 10.0
+	Java Version: 1.8.0_482, Amazon.com Inc.
+	Java VM Version: OpenJDK 64-Bit Server VM (mixed mode), Amazon.com Inc.
+	Memory: 712546688 bytes (679 MB) / 844627968 bytes (805 MB) up to 1908932608 bytes (1820 MB)
+	JVM Flags: 1 total; -Xmx2G
+	IntCache: cache: 0, tcache: 0, allocated: 0, tallocated: 0
+	FML: 
+	Loaded coremods (and transformers): 
+DevAuthLoadingPlugin (DevAuth-forge-legacy-1.2.1.jar)
+  me.djtheredstoner.devauth.forge.legacy.ClassTransformer
+	GL info: ' Vendor: 'ATI Technologies Inc.' Version: '4.6.0 Compatibility Profile Context 23.19.23.14.250826' Renderer: 'AMD Radeon(TM) Graphics'
+[11:26:53] [main/INFO] (FML) MinecraftForge v11.15.1.2318 Initialized
+[11:26:53] [main/INFO] (FML) Replaced 229 ore recipies
+[11:26:54] [main/INFO] (FML) Found 0 mods from the command line. Injecting into mod discoverer
+[11:26:54] [main/INFO] (FML) Searching D:\OpenMyau-Plus-main (1)\run\mods for mods
+[11:26:57] [main/INFO] (FML) Forge Mod Loader has identified 3 mods to load
+[11:26:58] [main/INFO] (FML) Attempting connection with missing mods [mcp, FML, Forge] at CLIENT
+[11:26:58] [main/INFO] (FML) Attempting connection with missing mods [mcp, FML, Forge] at SERVER
+[11:26:58] [main/INFO] (Minecraft) Reloading ResourceManager: Default, FMLFileResourcePack:Forge Mod Loader, FMLFileResourcePack:Minecraft Forge
+[11:26:58] [main/INFO] (FML) Processing ObjectHolder annotations
+[11:26:58] [main/INFO] (FML) Found 384 ObjectHolder annotations
+[11:26:58] [main/INFO] (FML) Identifying ItemStackHolder annotations
+[11:26:58] [main/INFO] (FML) Found 0 ItemStackHolder annotations
+[11:26:58] [main/INFO] (FML) Configured a dormant chunk cache size of 0
+[11:26:58] [main/INFO] (FML) Applying holder lookups
+[11:26:58] [Forge Version Check/INFO] (ForgeVersionCheck) [Forge] Starting version check at http://files.minecraftforge.net/maven/net/minecraftforge/forge/promotions_slim.json
+[11:26:58] [main/INFO] (FML) Holder lookups applied
+[11:26:58] [main/INFO] (FML) Injecting itemstacks
+[11:26:58] [main/INFO] (FML) Itemstack injection complete
+[11:26:59] [main/INFO] (STDOUT) [tv.twitch.StandardCoreAPI:<init>:16]: If on Windows, make sure to provide all of the necessary dll's as specified in the twitchsdk README. Also, make sure to set the PATH environment variable to point to the directory containing the dll's.
+[11:26:59] [main/ERROR] (Minecraft) Couldn't initialize twitch stream
+[11:26:59] [Sound Library Loader/INFO] (Minecraft) Starting up SoundSystem...
+[11:26:59] [Thread-6/INFO] (Minecraft) Initializing LWJGL OpenAL
+[11:26:59] [Thread-6/INFO] (Minecraft) (The LWJGL binding of OpenAL.  For more information, see http://www.lwjgl.org)
+[11:27:00] [Thread-6/INFO] (Minecraft) OpenAL initialized.
+[11:27:00] [Sound Library Loader/INFO] (Minecraft) Sound engine started
+[11:27:08] [main/INFO] (FML) Max texture size: 16384
+[11:27:08] [main/INFO] (Minecraft) Created: 16x16 textures-atlas
+[11:27:10] [main/INFO] (FML) Injecting itemstacks
+[11:27:10] [main/INFO] (FML) Itemstack injection complete
+[11:27:10] [main/INFO] (FML) Forge Mod Loader has successfully loaded 3 mods
+[11:27:10] [main/INFO] (Minecraft) Reloading ResourceManager: Default, FMLFileResourcePack:Forge Mod Loader, FMLFileResourcePack:Minecraft Forge
+[11:27:10] [main/INFO] (Minecraft) SoundSystem shutting down...
+[11:27:11] [main/WARN] (Minecraft) Author: Paul Lamb, www.paulscode.com
+[11:27:11] [Sound Library Loader/INFO] (Minecraft) Starting up SoundSystem...
+[11:27:11] [Thread-8/INFO] (Minecraft) Initializing LWJGL OpenAL
+[11:27:11] [Thread-8/INFO] (Minecraft) (The LWJGL binding of OpenAL.  For more information, see http://www.lwjgl.org)
+[11:27:11] [Thread-8/INFO] (Minecraft) OpenAL initialized.
+[11:27:11] [Sound Library Loader/INFO] (Minecraft) Sound engine started
+[11:27:18] [main/INFO] (FML) Max texture size: 16384
+[11:27:19] [main/INFO] (Minecraft) Created: 512x512 textures-atlas
+[11:27:24] [main/ERROR] (LaunchWrapper) The jar file C:\Users\DELL\.gradle\caches\modules-2\files-2.1\net.java.jinput\jinput\2.0.5\39c7796b469a600f72380316f6b1f11db6c2c7c4\jinput-2.0.5.jar has a security seal for path net.java.games.input, but that path is defined and not secure
+[11:27:24] [main/ERROR] (LaunchWrapper) The jar file C:\Users\DELL\.gradle\caches\modules-2\files-2.1\net.java.jinput\jinput\2.0.5\39c7796b469a600f72380316f6b1f11db6c2c7c4\jinput-2.0.5.jar has a security seal for path net.java.games.input, but that path is defined and not secure
+[11:27:24] [main/ERROR] (LaunchWrapper) The jar file C:\Users\DELL\.gradle\caches\modules-2\files-2.1\net.java.jinput\jinput\2.0.5\39c7796b469a600f72380316f6b1f11db6c2c7c4\jinput-2.0.5.jar has a security seal for path net.java.games.input, but that path is defined and not secure
+[11:27:24] [main/INFO] (Minecraft) Created: default.json
+[11:27:24] [main/ERROR] (Minecraft) Error loading config: null
+[11:27:51] [Server thread/INFO] (Minecraft) Starting integrated minecraft server version 1.8.9
+[11:27:51] [Server thread/INFO] (Minecraft) Generating keypair
+[11:27:51] [Server thread/INFO] (FML) Injecting existing block and item data into this server instance
+[11:27:51] [Server thread/INFO] (FML) Applying holder lookups
+[11:27:51] [Server thread/INFO] (FML) Holder lookups applied
+[11:27:51] [Server thread/INFO] (FML) Loading dimension 0 (New World) (net.minecraft.server.integrated.IntegratedServer@1ec36e51)
+[11:27:51] [Server thread/INFO] (FML) Loading dimension 1 (New World) (net.minecraft.server.integrated.IntegratedServer@1ec36e51)
+[11:27:51] [Server thread/INFO] (FML) Loading dimension -1 (New World) (net.minecraft.server.integrated.IntegratedServer@1ec36e51)
+[11:27:51] [Server thread/INFO] (Minecraft) Preparing start region for level 0
+[11:27:52] [Server thread/INFO] (Minecraft) Preparing spawn area: 53%
+[11:27:53] [Server thread/INFO] (Minecraft) Changing view distance to 12, from 10
+[11:27:56] [Netty Local Client IO #0/INFO] (FML) Server protocol version 2
+[11:27:56] [Netty Server IO #1/INFO] (FML) Client protocol version 2
+[11:27:56] [Netty Server IO #1/INFO] (FML) Client attempting to join with 3 mods : FML@8.0.99.99,Forge@11.15.1.2318,mcp@9.19
+[11:27:56] [Netty Local Client IO #0/INFO] (FML) [Netty Local Client IO #0] Client side modded connection established
+[11:27:56] [Server thread/INFO] (FML) [Server thread] Server side modded connection established
+[11:27:56] [Server thread/INFO] (Minecraft) Player843[local:E:c7544281] logged in with entity id 232 at (311.06486387325236, 5.655365933440011, -20.81874136845092)
+[11:27:56] [Server thread/INFO] (Minecraft) Player843 joined the game
+[11:28:13] [Server thread/INFO] (Minecraft) Player843 has just earned the achievement [Taking Inventory]
+[11:28:13] [main/INFO] (Minecraft) [CHAT] Player843 has just earned the achievement [Taking Inventory]
+[11:30:53] [Server thread/INFO] (Minecraft) Saving and pausing game...
+[11:30:53] [Server thread/INFO] (Minecraft) Saving chunks for level 'New World'/Overworld
+[11:30:53] [Server thread/INFO] (Minecraft) Saving chunks for level 'New World'/Nether
+[11:30:53] [Server thread/INFO] (Minecraft) Saving chunks for level 'New World'/The End
+[11:30:54] [Server thread/INFO] (Minecraft) Saving and pausing game...
+[11:30:54] [Server thread/INFO] (Minecraft) Saving chunks for level 'New World'/Overworld
+[11:30:54] [Server thread/INFO] (Minecraft) Saving chunks for level 'New World'/Nether
+[11:30:54] [Server thread/INFO] (Minecraft) Saving chunks for level 'New World'/The End
+[11:30:55] [main/INFO] (Minecraft) Stopping!
+[11:30:55] [main/INFO] (Minecraft) SoundSystem shutting down...
+[11:30:55] [Server thread/INFO] (Minecraft) Stopping server
+[11:30:55] [Server thread/INFO] (Minecraft) Saving players
+[11:30:55] [Server thread/INFO] (Minecraft) Saving worlds
+[11:30:55] [Server thread/INFO] (Minecraft) Saving chunks for level 'New World'/Overworld
+[11:30:55] [Server thread/INFO] (Minecraft) Saving chunks for level 'New World'/Nether
+[11:30:55] [Server thread/INFO] (Minecraft) Saving chunks for level 'New World'/The End
+[11:30:56] [Server thread/INFO] (FML) Unloading dimension 0
+[11:30:56] [Server thread/INFO] (FML) Unloading dimension -1
+[11:30:56] [Server thread/INFO] (FML) Unloading dimension 1
+[11:30:56] [Server thread/INFO] (FML) Applying holder lookups
+[11:30:56] [Server thread/INFO] (FML) Holder lookups applied
+[11:30:56] [main/WARN] (Minecraft) Author: Paul Lamb, www.paulscode.com
