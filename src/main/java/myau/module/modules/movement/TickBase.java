@@ -23,11 +23,13 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.play.server.S08PacketPlayerPosLook;
 import net.minecraft.potion.Potion;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import org.lwjgl.opengl.GL11;
 
 import java.awt.Color;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,6 +40,7 @@ public class TickBase extends Module {
     public static boolean duringTickModification = false;
 
     public final ModeProperty mode = new ModeProperty("mode", 0, new String[]{"PAST", "FUTURE"});
+    public final ModeProperty call = new ModeProperty("call", 0, new String[]{"PLAYER", "GAME"});
     public final BooleanProperty onlyOnKillAura = new BooleanProperty("only-on-killaura", true);
     public final IntProperty change = new IntProperty("changes", 100, 0, 100);
     public final IntProperty balanceMaxValue = new IntProperty("balance-max-value", 100, 1, 1000);
@@ -47,15 +50,17 @@ public class TickBase extends Module {
     public final FloatProperty maxRangeToAttack = new FloatProperty("max-range-to-attack", 5.0F, 0.0F, 10.0F);
     public final BooleanProperty forceGround = new BooleanProperty("force-ground", false);
     public final IntProperty pauseAfterTick = new IntProperty("pause-after-tick", 0, 0, 100);
+    public final IntProperty cooldown = new IntProperty("cooldown", 0, 0, 100);
     public final BooleanProperty pauseOnFlag = new BooleanProperty("pause-on-flag", true);
     public final BooleanProperty line = new BooleanProperty("line", true);
     public final ColorProperty lineColor = new ColorProperty("line-color", 0xFF00FF00);
 
     private int ticksToSkip;
+    private int cooldownTicks;
     private float tickBalance;
     private boolean reachedTheLimit;
-    private boolean modificationFlag;
     private final List<TickData> tickBuffer = new ArrayList<>();
+
     @Override
     public String[] getSuffix() {
         return new String[]{mode.getValue() == 0 ? "Past" : "Future"};
@@ -64,9 +69,9 @@ public class TickBase extends Module {
     @Override
     public void onEnabled() {
         ticksToSkip = 0;
+        cooldownTicks = 0;
         tickBalance = 0.0F;
         reachedTheLimit = false;
-        modificationFlag = false;
         duringTickModification = false;
         tickBuffer.clear();
     }
@@ -75,24 +80,30 @@ public class TickBase extends Module {
     public void onDisabled() {
         duringTickModification = false;
         ticksToSkip = 0;
+        cooldownTicks = 0;
+        reachedTheLimit = false;
         tickBuffer.clear();
     }
 
     @EventTarget
     public void onTick(TickEvent event) {
         if (!this.isEnabled() || mc.thePlayer == null || mc.theWorld == null) return;
+        if (duringTickModification) return;
         if (mc.thePlayer.ridingEntity != null || isBlinkEnabled()) return;
 
-        if (event.getType() == EventType.PRE && ticksToSkip-- > 0) {
-            event.setCancelled(true);
+        if (event.getType() == EventType.PRE) {
+            if (ticksToSkip > 0) {
+                ticksToSkip--;
+                event.setCancelled(true);
+            }
             return;
         }
 
         if (event.getType() != EventType.POST) return;
 
-        if (modificationFlag) {
-            modificationFlag = false;
-            duringTickModification = false;
+        if (cooldownTicks > 0) {
+            cooldownTicks--;
+            return;
         }
 
         runTickBaseIfPossible();
@@ -111,6 +122,8 @@ public class TickBase extends Module {
         if (event.getPacket() instanceof S08PacketPlayerPosLook) {
             tickBalance = 0.0F;
             ticksToSkip = 0;
+            cooldownTicks = 0;
+            reachedTheLimit = true;
         }
     }
 
@@ -149,10 +162,12 @@ public class TickBase extends Module {
             tickBuffer.clear();
             if (tickBalance <= 0.0F) reachedTheLimit = true;
             if (tickBalance > balanceMaxValue.getValue() / 2.0F) reachedTheLimit = false;
-            if (tickBalance <= balanceMaxValue.getValue()) tickBalance += balanceRecoveryIncrement.getValue();
+            if (tickBalance < balanceMaxValue.getValue()) {
+                tickBalance = Math.min(balanceMaxValue.getValue(), tickBalance + balanceRecoveryIncrement.getValue());
+            }
             if (reachedTheLimit) return;
 
-            int ticks = Math.min((int) tickBalance, maxTicksAtATime.getValue() * (mode.getValue() == 0 ? 2 : 1));
+            int ticks = Math.min((int) tickBalance, maxTicksAtATime.getValue());
             double x = mc.thePlayer.posX;
             double y = mc.thePlayer.posY;
             double z = mc.thePlayer.posZ;
@@ -192,7 +207,7 @@ public class TickBase extends Module {
                     onGround = true;
                 }
 
-                float friction = onGround ? 0.91F * mc.theWorld.getBlockState(mc.thePlayer.getPosition().down()).getBlock().slipperiness : 0.91F;
+                float friction = getFriction(x, y, z, onGround);
                 motionX *= friction;
                 motionZ *= friction;
                 fallDistance = onGround ? 0.0F : fallDistance + (float) Math.max(0.0D, -motionY);
@@ -204,6 +219,13 @@ public class TickBase extends Module {
     private float getGroundAcceleration() {
         float slipperiness = mc.theWorld.getBlockState(mc.thePlayer.getPosition().down()).getBlock().slipperiness * 0.91F;
         return mc.thePlayer.getAIMoveSpeed() * (0.16277136F / (slipperiness * slipperiness * slipperiness));
+    }
+
+    private float getFriction(double x, double y, double z, boolean onGround) {
+        if (!onGround) {
+            return 0.91F;
+        }
+        return 0.91F * mc.theWorld.getBlockState(new BlockPos(x, y - 1.0D, z)).getBlock().slipperiness;
     }
 
     private double[] getInputMotion(float forward, float strafe, float yaw, float speed) {
@@ -243,29 +265,62 @@ public class TickBase extends Module {
             }
         }
 
-        int selectedTick = criticalTick != -1 ? criticalTick : bestTick;
-        if (selectedTick == 0) return;
-        if (RandomUtil.nextInt(0, 100) > change.getValue() || (onlyOnKillAura.getValue() && !isKillAuraActive())) {
+        int selectedTickIndex = criticalTick != -1 ? criticalTick : bestTick;
+        if (selectedTickIndex < 0) return;
+        if (RandomUtil.nextInt(1, 100) > change.getValue() || !canTickBaseWithKillAura()) {
             ticksToSkip = 0;
             return;
         }
 
-        int skipTicks = Math.min(selectedTick + pauseAfterTick.getValue(), maxTicksAtATime.getValue() + pauseAfterTick.getValue());
-        duringTickModification = true;
+        int requestedTicks = Math.min(selectedTickIndex + 1, maxTicksAtATime.getValue());
+        int ranTicks;
         if (mode.getValue() == 0) {
-            ticksToSkip = skipTicks;
-            runExtraTicks(skipTicks);
+            ranTicks = runExtraTicks(requestedTicks);
+            ticksToSkip = ranTicks + pauseAfterTick.getValue();
         } else {
-            runExtraTicks(skipTicks);
-            ticksToSkip = skipTicks;
+            ranTicks = runExtraTicksUntilRequirementBreaks(requestedTicks);
+            ticksToSkip = ranTicks + pauseAfterTick.getValue();
         }
-        modificationFlag = true;
+
+        if (ranTicks > 0) {
+            cooldownTicks = cooldown.getValue();
+        }
     }
 
-    private void runExtraTicks(int ticks) {
+    private int runExtraTicks(int ticks) {
+        int ranTicks = 0;
         for (int i = 0; i < ticks; i++) {
-            mc.thePlayer.onUpdate();
+            runExtraTick();
+            ranTicks++;
+        }
+        return ranTicks;
+    }
+
+    private int runExtraTicksUntilRequirementBreaks(int ticks) {
+        int ranTicks = 0;
+        for (int i = 0; i < ticks; i++) {
+            runExtraTick();
+            ranTicks++;
+            if (!canTickBaseWithKillAura()) {
+                break;
+            }
+        }
+        return ranTicks;
+    }
+
+    private void runExtraTick() {
+        duringTickModification = true;
+        try {
+            if (call.getValue() == 1) {
+                mc.runTick();
+            } else {
+                mc.thePlayer.onUpdate();
+            }
             tickBalance -= 1.0F;
+        } catch (IOException exception) {
+            throw new RuntimeException("Failed to run TickBase game tick", exception);
+        } finally {
+            duringTickModification = false;
         }
     }
 
@@ -291,9 +346,17 @@ public class TickBase extends Module {
         return mc.thePlayer.getDistanceToEntity(entity) <= Math.max(minRangeToAttack.getValue(), maxRangeToAttack.getValue()) + 4.0F;
     }
 
-    private boolean isKillAuraActive() {
+    private boolean canTickBaseWithKillAura() {
+        if (!onlyOnKillAura.getValue()) {
+            return true;
+        }
         Module module = Myau.moduleManager.modules.get(KillAura.class);
-        return module != null && module.isEnabled();
+        if (!(module instanceof KillAura) || !module.isEnabled()) {
+            return false;
+        }
+
+        KillAura killAura = (KillAura) module;
+        return killAura.getTarget() != null && killAura.isAttackAllowed();
     }
 
     private boolean isBlinkEnabled() {
