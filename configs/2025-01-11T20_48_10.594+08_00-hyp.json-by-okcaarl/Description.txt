@@ -1,3 +1,0 @@
-** Blatant Bedwars Config**
-.b l for binds
- version Heliosis-241222

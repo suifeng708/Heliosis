@@ -183,12 +183,13 @@ public class Fly extends Module {
         EntityPlayerSP player = mc.thePlayer;
         disableMode(activeMode);
         activeMode = -1;
+        timer().setTimerSpeed(1.0F);
         if (player == null) return;
 
         player.capabilities.isFlying = wasFlying;
         player.stepHeight = 0.6F;
+        player.jumpMovementFactor = 0.02F;
         ((IAccessorEntityPlayer) player).setSpeedInAir(0.02F);
-        timer().setTimerSpeed(1.0F);
         if (!isMode(AAC_1910, AAC_305, AAC_316, AAC_3312, AAC_3312_GLIDE, AAC_3313,
                 HYPIXEL, VERUS_GLIDE, SMOOTH_VANILLA, VANILLA, FIREBALL, COLLIDE, JUMP)) {
             stop();
@@ -260,7 +261,7 @@ public class Fly extends Module {
     @EventTarget
     public void onUpdate(UpdateEvent event) {
         EntityPlayerSP player = mc.thePlayer;
-        if (player == null || mc.theWorld == null) return;
+        if (!isEnabled() || player == null || mc.theWorld == null) return;
 
         if (event.getType() == EventType.POST) {
             if (activeMode == BOOST_HYPIXEL) {
@@ -471,6 +472,7 @@ public class Fly extends Module {
 
     @EventTarget
     public void onStrafe(StrafeEvent event) {
+        if (!isEnabled()) return;
         if (isMode(VANILLA, NCP, OLD_NCP, AAC_1910, CUBECRAFT, BOOST_HYPIXEL, SPARTAN_2,
                 BUG_SPARTAN, VERUS, VERUS_GLIDE, MINE_SECURE, WATCH_CAT, KEEP_ALIVE)) {
             event.setFriction(0.0F);
@@ -479,13 +481,13 @@ public class Fly extends Module {
 
     @EventTarget
     public void onTick(TickEvent event) {
-        if (event.getType() != EventType.PRE || activeMode != FIREBALL || mc.thePlayer == null) return;
+        if (!isEnabled() || event.getType() != EventType.PRE || activeMode != FIREBALL || mc.thePlayer == null) return;
         tickFireball(mc.thePlayer);
     }
 
     @EventTarget
     public void onPacket(PacketEvent event) {
-        if (mc.thePlayer == null) return;
+        if (!isEnabled() || mc.thePlayer == null) return;
 
         if (event.getType() == EventType.SEND && event.getPacket() instanceof C03PacketPlayer) {
             if (isMode(NCP, VERUS)) ((IAccessorC03PacketPlayer) event.getPacket()).setOnGround(true);
@@ -504,13 +506,14 @@ public class Fly extends Module {
 
     @EventTarget
     public void onJump(JumpEvent event) {
+        if (!isEnabled()) return;
         if (isMode(VERUS, HYPIXEL, BOOST_HYPIXEL)) event.setCancelled(true);
     }
 
     @EventTarget
     public void onBlockBB(BlockBBEvent event) {
         EntityPlayerSP player = mc.thePlayer;
-        if (player == null) return;
+        if (!isEnabled() || player == null) return;
 
         BlockPos pos = event.getPos();
         if (isMode(HYPIXEL, BOOST_HYPIXEL) && event.getBlock() == Blocks.air && pos.getY() < player.posY) {
@@ -547,7 +550,7 @@ public class Fly extends Module {
 
     @EventTarget
     public void onRender3D(Render3DEvent event) {
-        if (!mark.getValue() || mc.thePlayer == null || isMode(VANILLA, SMOOTH_VANILLA)) return;
+        if (!isEnabled() || !mark.getValue() || mc.thePlayer == null || isMode(VANILLA, SMOOTH_VANILLA)) return;
 
         double y = startY + 2.0 + (activeMode == BOOST_HYPIXEL ? 0.42 : 0.0);
         AxisAlignedBB box = new AxisAlignedBB(

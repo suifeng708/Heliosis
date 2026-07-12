@@ -1,24 +1,20 @@
 package myau.util.shader.impl;
 
-import myau.font.CFontRenderer;
-import myau.font.FontProcess;
+import myau.util.AnimationUtil;
 import myau.util.RenderUtil;
-import myau.util.animations.Animation;
-import myau.util.animations.impl.DecelerateAnimation;
+import myau.util.font.CenterMode;
+import myau.util.font.FontManager;
+import myau.util.font.impl.FontRenderer;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.audio.PositionedSoundRecord;
-import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.util.ResourceLocation;
-import myau.util.animations.Direction;
 
-import java.awt.*;
+import java.awt.Color;
 
 public class GuiButton extends net.minecraft.client.gui.GuiButton
 {
-    private final Animation hoverAnimation = new DecelerateAnimation(300, 1, Direction.BACKWARDS);
-    private static final org.lwjgl.util.Color PRIMARY_COLOR = new org.lwjgl.util.Color((byte)228, (byte)143, (byte)255);
-    private static final org.lwjgl.util.Color SECONDARY_COLOR = new org.lwjgl.util.Color((byte)255, (byte)113, (byte)82);
+    private static final float RADIUS = 5.0F;
+
+    private float hoverProgress;
 
     public GuiButton(int buttonId, int x, int y, String buttonText)
     {
@@ -33,41 +29,73 @@ public class GuiButton extends net.minecraft.client.gui.GuiButton
     @Override
     public void drawButton(Minecraft mc, int mouseX, int mouseY)
     {
-        if (this.visible)
-        {
-            CFontRenderer fontRenderer = FontProcess.getFont("sans");
+        if (!this.visible) return;
 
-            int textWidth = fontRenderer.getStringWidth(this.displayString);
-            int textX = this.xPosition + (this.width - textWidth) / 2;
-            int textY = this.yPosition + (this.height - fontRenderer.FONT_HEIGHT) / 2;
+        this.hovered = mouseX >= this.xPosition && mouseY >= this.yPosition
+                && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
+        hoverProgress = AnimationUtil.animate(this.hovered && this.enabled ? 1.0F : 0.0F,
+                hoverProgress, 0.18F, 1.0F);
 
-            boolean isMouseOverText = mouseX >= textX - 4 && mouseY >= textY - 4 &&
-                    mouseX < textX + textWidth + 8 && mouseY < textY + fontRenderer.FONT_HEIGHT + 8;
+        int backgroundNormal = new Color(17, 21, 30, this.enabled ? 210 : 140).getRGB();
+        int backgroundHover = new Color(32, 44, 60, 240).getRGB();
+        int borderNormal = new Color(255, 255, 255, this.enabled ? 42 : 22).getRGB();
+        int borderHover = new Color(96, 200, 255, 230).getRGB();
+        int textNormal = new Color(228, 233, 240, this.enabled ? 255 : 120).getRGB();
 
-            GlStateManager.enableBlend();
-            GlStateManager.blendFunc(770, 771);
+        int backgroundColor = AnimationUtil.interpolateColor(backgroundNormal, backgroundHover, hoverProgress);
+        int borderColor = AnimationUtil.interpolateColor(borderNormal, borderHover, hoverProgress);
+        int textColor = AnimationUtil.interpolateColor(textNormal, Color.WHITE.getRGB(), hoverProgress);
 
-            org.lwjgl.util.Color gradientColor = RenderUtil.interpolateColorsBackAndForth(15, 75, PRIMARY_COLOR, SECONDARY_COLOR, false);
+        GlStateManager.enableBlend();
+        GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
 
-             int textColor = isMouseOverText ? (0xFF000000 | (gradientColor.getRed() << 16)  | (gradientColor.getGreen() << 8) | gradientColor.getBlue()) : 0xFFFFFFFF;
-            fontRenderer.drawCenteredString(this.displayString,
+        // Soft drop shadow for depth
+        RenderUtil.drawRoundedRect(this.xPosition, this.yPosition + 1.0F, this.width, this.height,
+                RADIUS, new Color(0, 0, 0, 70).getRGB(), true, true, true, true);
+
+        // Accent glow that fades in on hover
+        int glowAlpha = (int) (55.0F * hoverProgress);
+        if (glowAlpha > 3) {
+            RenderUtil.drawRoundedRect(this.xPosition - 1.5F, this.yPosition - 1.5F,
+                    this.width + 3.0F, this.height + 3.0F, RADIUS + 1.5F,
+                    new Color(96, 200, 255, glowAlpha).getRGB(), true, true, true, true);
+        }
+
+        RenderUtil.drawRoundedRect(this.xPosition, this.yPosition, this.width, this.height,
+                RADIUS, backgroundColor, true, true, true, true);
+
+        // Thin inner top highlight for depth
+        RenderUtil.drawRoundedRect(this.xPosition + 3.0F, this.yPosition + 1.0F, this.width - 6.0F, 1.0F,
+                0.5F, new Color(255, 255, 255, 20).getRGB(), true, true, true, true);
+
+        RenderUtil.drawRoundedRectOutline(this.xPosition + 0.5F, this.yPosition + 0.5F,
+                this.width - 1.0F, this.height - 1.0F, RADIUS - 0.5F, 1.0F,
+                borderColor, true, true, true, true);
+
+        float highlightWidth = Math.max(0.0F, (this.width - 16.0F) * hoverProgress);
+        if (highlightWidth > 0.0F) {
+            RenderUtil.drawRoundedRect(this.xPosition + (this.width - highlightWidth) / 2.0F,
+                    this.yPosition + this.height - 2.0F, highlightWidth, 1.0F, 0.5F,
+                    new Color(96, 200, 255, 235).getRGB(), true, true, true, true);
+        }
+
+        FontRenderer fontRenderer = FontManager.harmonyOS_Sans20 != null
+                ? FontManager.harmonyOS_Sans20 : FontManager.productSans20;
+        if (fontRenderer != null) {
+            // Draw at 1:1 scale — the atlas is already baked for the current GUI
+            // scale, and any extra GL scaling resamples it into a blurry mess.
+            fontRenderer.drawString(this.displayString,
+                    this.xPosition + this.width / 2.0,
+                    this.yPosition + this.height / 2.0 + 1.0,
+                    CenterMode.XY, false, textColor);
+        } else {
+            this.drawCenteredString(mc.fontRendererObj, this.displayString,
                     this.xPosition + this.width / 2,
                     this.yPosition + (this.height - 8) / 2,
                     textColor);
-
-            if (isMouseOverText) {
-                hoverAnimation.setDirection(Direction.FORWARDS);
-            } else {
-                hoverAnimation.setDirection(Direction.BACKWARDS);
-            }
-
-            int highlightHeight = 1;
-            int highlightY = textY + fontRenderer.FONT_HEIGHT + 3;
-            float animWidth = (float) ((textWidth + 8) * hoverAnimation.getOutput());
-
-            RenderUtil.drawRect(textX - 4, highlightY, (float) animWidth, (float) highlightHeight, 0xFFFFFFFF);
-
-            this.mouseDragged(mc, mouseX, mouseY);
         }
+
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+        this.mouseDragged(mc, mouseX, mouseY);
     }
 }

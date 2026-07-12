@@ -390,6 +390,10 @@ public class FontManager {
             nunitoBold80.destroy();
             nunitoBold80 = null;
         }
+        if (harmonyOS_Sans20 != null) {
+            harmonyOS_Sans20.destroy();
+            harmonyOS_Sans20 = null;
+        }
     }
 
     public static float getStringWidth(FontRenderer font, String text) {
