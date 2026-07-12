@@ -14,7 +14,6 @@ import myau.property.properties.BooleanProperty;
 import myau.property.properties.FloatProperty;
 import myau.property.properties.IntProperty;
 import myau.property.properties.ModeProperty;
-import myau.util.MoveUtil;
 import myau.util.PacketUtil;
 import myau.util.RandomUtil;
 import myau.util.TimerUtil;
@@ -42,18 +41,18 @@ public class Velocity extends Module {
             "Reverse", "SmoothReverse", "Jump", "Glitch", "LegitSmart",
             "Vulcan", "MatrixReduce", "Matrix", "Intave",
             "Hypixel Morden", "Hypixel", "HypixelAir", "BlockSMC", "GrimCombat",
-            "Polar", "MatrixNoXZ", "Intave13", "JumpReset", "Intave14",
-            "HypixelPrediction", "GrimReduce", "IntaveReduce", "Reduce"
+            "MatrixNoXZ", "JumpReset", "Intave14", "HypixelPrediction",
+            "GrimReduce", "IntaveReduce", "Reduce"
     });
 
-    public final FloatProperty horizontal = new FloatProperty("Horizontal", 0.0f, -2.0f, 2.0f, () -> mode.getValue() == 0);
+    public final FloatProperty horizontal = new FloatProperty("Horizontal", 0.0f, -2.0f, 2.0f, () -> mode.getValue() == 0 || mode.getValue() == 1);
     public final FloatProperty vertical = new FloatProperty("Vertical", 0.0f, -2.0f, 2.0f, () -> mode.getValue() == 0);
 
-    public final IntProperty predictionChance = new IntProperty("PredChance", 100, 0, 100, () -> mode.getValue() == 24);
-    public final FloatProperty predictionHorizontal = new FloatProperty("PredHorizontal", 0.0f, 0.0f, 1.0f, () -> mode.getValue() == 24);
-    public final FloatProperty predictionVertical = new FloatProperty("PredVertical", 1.0f, 0.0f, 1.0f, () -> mode.getValue() == 24);
-    public final BooleanProperty predictionFakeCheck = new BooleanProperty("PredFakeCheck", false, () -> mode.getValue() == 24);
-    public final BooleanProperty predictionDebug = new BooleanProperty("PredDebug", false, () -> mode.getValue() == 24);
+    public final IntProperty predictionChance = new IntProperty("PredChance", 100, 0, 100, () -> mode.getValue() == 22);
+    public final FloatProperty predictionHorizontal = new FloatProperty("PredHorizontal", 0.0f, 0.0f, 1.0f, () -> mode.getValue() == 22);
+    public final FloatProperty predictionVertical = new FloatProperty("PredVertical", 1.0f, 0.0f, 1.0f, () -> mode.getValue() == 22);
+    public final BooleanProperty predictionFakeCheck = new BooleanProperty("PredFakeCheck", false, () -> mode.getValue() == 22);
+    public final BooleanProperty predictionDebug = new BooleanProperty("PredDebug", false, () -> mode.getValue() == 22);
 
     public final FloatProperty reverseStrength = new FloatProperty("ReverseStrength", 1.0f, 0.1f, 1.0f, () -> mode.getValue() == 5);
     public final FloatProperty smoothReverseStrength = new FloatProperty("SmoothRevStrength", 0.05f, 0.02f, 0.1f, () -> mode.getValue() == 6);
@@ -81,25 +80,25 @@ public class Velocity extends Module {
     public final BooleanProperty intaveNotWhileSpeed = new BooleanProperty("Not while speed", false, () -> mode.getValue() == 13);
     public final BooleanProperty intaveNotWhileJumpBoost = new BooleanProperty("Not while jump boost", false, () -> mode.getValue() == 13);
     public final BooleanProperty intaveDebug = new BooleanProperty("Debug", false, () -> mode.getValue() == 13);
-    public final FloatProperty intaveReduceFactor = new FloatProperty("Factor", 0.6f, 0.6f, 1.0f, () -> mode.getValue() == 26);
-    public final IntProperty intaveReduceHurtTime = new IntProperty("HurtTime", 9, 1, 10, () -> mode.getValue() == 26);
+    public final FloatProperty intaveReduceFactor = new FloatProperty("Factor", 0.6f, 0.6f, 1.0f, () -> mode.getValue() == 24);
+    public final IntProperty intaveReduceHurtTime = new IntProperty("HurtTime", 9, 1, 10, () -> mode.getValue() == 24);
 
-    public final IntProperty jumpResetChance = new IntProperty("JRChance", 100, 0, 100, () -> mode.getValue() == 22);
+    public final IntProperty jumpResetChance = new IntProperty("JRChance", 100, 0, 100, () -> mode.getValue() == 20);
 
     public final FloatProperty grimRange = new FloatProperty("GrimRange", 3.5f, 0.0f, 6.0f, () -> mode.getValue() == 18);
     public final IntProperty grimAttacks = new IntProperty("GrimAttacks", 12, 1, 16, () -> mode.getValue() == 18);
 
-    public final FloatProperty intave14Timer1 = new FloatProperty("Intave14-T1", 0.3f, 0.1f, 2.0f, () -> mode.getValue() == 23);
-    public final FloatProperty intave14Timer2 = new FloatProperty("Intave14-T2", 5.0f, 1.0f, 10.0f, () -> mode.getValue() == 23);
-    public final IntProperty reduceMinHurtTime = new IntProperty("ReduceMinHurtTime", 5, 0, 10, () -> mode.getValue() == 25);
-    public final IntProperty reduceMaxHurtTime = new IntProperty("ReduceMaxHurtTime", 10, 0, 20, () -> mode.getValue() == 25);
-    public final FloatProperty reduceFactor = new FloatProperty("ReduceFactor", 0.6f, 0.0f, 1.0f, () -> mode.getValue() == 25);
-    public final BooleanProperty reduceOnlyGround = new BooleanProperty("OnlyGround", false, () -> mode.getValue() == 25);
+    public final FloatProperty intave14Timer1 = new FloatProperty("Intave14-T1", 0.3f, 0.1f, 2.0f, () -> mode.getValue() == 21);
+    public final FloatProperty intave14Timer2 = new FloatProperty("Intave14-T2", 5.0f, 1.0f, 10.0f, () -> mode.getValue() == 21);
+    public final IntProperty reduceMinHurtTime = new IntProperty("ReduceMinHurtTime", 5, 0, 10, () -> mode.getValue() == 23);
+    public final IntProperty reduceMaxHurtTime = new IntProperty("ReduceMaxHurtTime", 10, 0, 20, () -> mode.getValue() == 23);
+    public final FloatProperty reduceFactor = new FloatProperty("ReduceFactor", 0.6f, 0.0f, 1.0f, () -> mode.getValue() == 23);
+    public final BooleanProperty reduceOnlyGround = new BooleanProperty("OnlyGround", false, () -> mode.getValue() == 23);
 
-    public final IntProperty reduceAttackCount = new IntProperty("ReduceAttackCount", 3, 0, 20, () -> mode.getValue() == 27);
-    public final BooleanProperty reduceRequireKillAura = new BooleanProperty("ReduceRequireKillAura", false, () -> mode.getValue() == 27);
-    public final FloatProperty reduceAttackHorizontal = new FloatProperty("ReduceAttackHorizontal", 0.6f, 0.0f, 1.0f, () -> mode.getValue() == 27);
-    public final FloatProperty reduceAttackVertical = new FloatProperty("ReduceAttackVertical", 1.0f, 0.0f, 1.0f, () -> mode.getValue() == 27);
+    public final IntProperty reduceAttackCount = new IntProperty("ReduceAttackCount", 3, 0, 20, () -> mode.getValue() == 25);
+    public final BooleanProperty reduceRequireKillAura = new BooleanProperty("ReduceRequireKillAura", false, () -> mode.getValue() == 25);
+    public final FloatProperty reduceAttackHorizontal = new FloatProperty("ReduceAttackHorizontal", 0.6f, 0.0f, 1.0f, () -> mode.getValue() == 25);
+    public final FloatProperty reduceAttackVertical = new FloatProperty("ReduceAttackVertical", 1.0f, 0.0f, 1.0f, () -> mode.getValue() == 25);
 
     private final TimerUtil velocityTimer = new TimerUtil();
     private boolean hasReceivedVelocity = false;
@@ -112,9 +111,13 @@ public class Velocity extends Module {
     private boolean hypixelAbsorbed = false;
     private boolean matrixAbsorbed = false;
     private boolean attacked = false;
-    private boolean matrixReduced = false;
-    private boolean intaveReduced = false;
+    private boolean matrixReduced = true;
+    private boolean intaveReduced = true;
     private int timerTicks = 0;
+    private int glitchNoClipTicks = 0;
+    private boolean glitchNoClipActive = false;
+    private boolean smoothReverseActive = false;
+    private boolean intave14TimerActive = false;
 
     private int chanceCounter = 0;
     private boolean allowNext = true;
@@ -129,6 +132,7 @@ public class Velocity extends Module {
     public void onDisabled() {
         if (mc.thePlayer != null) {
             ((IAccessorEntityPlayer) mc.thePlayer).setSpeedInAir(0.02F);
+            mc.thePlayer.noClip = false;
         }
         ((IAccessorTimer) ((IAccessorMinecraft) mc).getTimer()).setTimerSpeed(1.0f);
         timerTicks = 0;
@@ -137,14 +141,21 @@ public class Velocity extends Module {
 
         chanceCounter = 0;
         allowNext = true;
-        matrixReduced = false;
-        intaveReduced = false;
+        matrixReduced = true;
+        intaveReduced = true;
         shouldRotate = false;
         attackTimer = -1;
         lastHurtTime = 0;
         jumpFlag = false;
         legitSmartJumpCount = 0;
         reduceRemainingAttackCount = 0;
+        glitchNoClipTicks = 0;
+        glitchNoClipActive = false;
+        smoothReverseActive = false;
+        intave14TimerActive = false;
+        intaveTick = 0;
+        intaveDamageTick = 0;
+        lastAttackTime = 0;
     }
 
     private void reset() {
@@ -162,11 +173,32 @@ public class Velocity extends Module {
     public void onUpdate(UpdateEvent event) {
         if (event.getType() == EventType.PRE) {
             EntityPlayerSP player = mc.thePlayer;
-            if (player == null || player.isInWater() || player.isInLava() || ((IAccessorEntity) player).getIsInWeb())
-                return;
+            if (player == null) return;
+
+            if (glitchNoClipActive) {
+                if (mode.getValue() == 8 && glitchNoClipTicks > 0) {
+                    player.noClip = true;
+                    glitchNoClipTicks--;
+                } else {
+                    player.noClip = false;
+                    glitchNoClipTicks = 0;
+                    glitchNoClipActive = false;
+                }
+            }
+
+            boolean movementBlocked = player.isInWater() || player.isInLava() || ((IAccessorEntity) player).getIsInWeb();
+            if (smoothReverseActive && (mode.getValue() != 6 || movementBlocked)) {
+                ((IAccessorEntityPlayer) player).setSpeedInAir(0.02F);
+                smoothReverseActive = false;
+            }
+            if (intave14TimerActive && (mode.getValue() != 21 || movementBlocked)) {
+                ((IAccessorTimer) ((IAccessorMinecraft) mc).getTimer()).setTimerSpeed(1.0f);
+                intave14TimerActive = false;
+            }
+            if (movementBlocked) return;
 
             switch (mode.getValue()) {
-                case 24:
+                case 22:
                     int hurtTime = player.hurtTime;
                     if (hurtTime > lastHurtTime) {
 
@@ -206,6 +238,7 @@ public class Velocity extends Module {
                                 attackTimer = 1;
                             }
                         }
+                        shouldRotate = false;
                     }
 
                     if (attackTimer == 0) {
@@ -231,47 +264,28 @@ public class Velocity extends Module {
                 case 8:
                     if (hasReceivedVelocity) {
                         player.noClip = true;
+                        glitchNoClipTicks = 1;
+                        glitchNoClipActive = true;
                         if (player.hurtTime == 7) player.motionY = 0.4;
                         hasReceivedVelocity = false;
-                    }
-                    break;
-                case 5:
-                    if (hasReceivedVelocity) {
-                        if (!player.onGround) {
-                            if (onLook.getValue()) {
-                                KillAura aura = (KillAura) Myau.moduleManager.modules.get(KillAura.class);
-                                Entity target = aura.target != null ? aura.target.getEntity() : null;
-                                if (target != null) {
-                                    Rotation playerRot = new Rotation(player.rotationYaw, player.rotationPitch);
-                                    Rotation targetRot = getRotations(target);
-                                    if (getRotationDifference(playerRot, targetRot) > maxAngleDiff.getValue()) {
-                                        return;
-                                    }
-                                }
-                            }
-                            MoveUtil.setSpeed(MoveUtil.getSpeed() * reverseStrength.getValue());
-                        } else if (velocityTimer.hasTimeElapsed(80)) {
-                            hasReceivedVelocity = false;
-                        }
                     }
                     break;
                 case 6:
                     if (hasReceivedVelocity) {
                         KillAura aura = (KillAura) Myau.moduleManager.modules.get(KillAura.class);
-                        Entity target = aura.target != null ? aura.target.getEntity() : null;
+                        Entity target = aura != null && aura.target != null ? aura.target.getEntity() : null;
 
-                        if (target == null) {
-                            ((IAccessorEntityPlayer) player).setSpeedInAir(0.02F);
-                        } else if (onLook.getValue() && getRotationDifference(new Rotation(player.rotationYaw, player.rotationPitch), getRotations(target)) > maxAngleDiff.getValue()) {
+                        if (onLook.getValue() && target != null && getRotationDifference(new Rotation(player.rotationYaw, player.rotationPitch), getRotations(target)) > maxAngleDiff.getValue()) {
                             hasReceivedVelocity = false;
                             ((IAccessorEntityPlayer) player).setSpeedInAir(0.02F);
-                        } else {
-                            if (!player.onGround) {
-                                ((IAccessorEntityPlayer) player).setSpeedInAir(smoothReverseStrength.getValue());
-                            } else if (velocityTimer.hasTimeElapsed(80)) {
-                                hasReceivedVelocity = false;
-                                ((IAccessorEntityPlayer) player).setSpeedInAir(0.02F);
-                            }
+                            smoothReverseActive = false;
+                        } else if (!player.onGround) {
+                            ((IAccessorEntityPlayer) player).setSpeedInAir(smoothReverseStrength.getValue());
+                            smoothReverseActive = true;
+                        } else if (velocityTimer.hasTimeElapsed(80)) {
+                            hasReceivedVelocity = false;
+                            ((IAccessorEntityPlayer) player).setSpeedInAir(0.02F);
+                            smoothReverseActive = false;
                         }
                     }
                     break;
@@ -335,7 +349,7 @@ public class Velocity extends Module {
                         hasReceivedVelocity = false;
                     }
                     break;
-                case 20:
+                case 19:
                     if (hasReceivedVelocity && player.onGround) matrixAbsorbed = false;
                     break;
                 case 18:
@@ -343,31 +357,34 @@ public class Velocity extends Module {
                         if (player.hurtTime == 0) attacked = false;
                     }
                     break;
-                case 25:
-                    if (hasReceivedVelocity && player.hurtTime >= reduceMinHurtTime.getValue() && player.hurtTime <= reduceMaxHurtTime.getValue()) {
+                case 23:
+                    if (hasReceivedVelocity
+                            && player.hurtTime > 0
+                            && player.hurtTime >= reduceMinHurtTime.getValue()
+                            && player.hurtTime <= reduceMaxHurtTime.getValue()
+                            && (!reduceOnlyGround.getValue() || player.onGround)) {
                         player.motionX *= reduceFactor.getValue();
                         player.motionY *= reduceFactor.getValue();
                         player.motionZ *= reduceFactor.getValue();
-
-                        if (reduceOnlyGround.getValue() && !player.onGround) {
-                            hasReceivedVelocity = false;
-                        }
+                    }
+                    if (hasReceivedVelocity
+                            && (player.hurtTime == 0 || player.hurtTime < reduceMinHurtTime.getValue())
+                            && velocityTimer.hasTimeElapsed(100)) {
+                        hasReceivedVelocity = false;
                     }
                     break;
                 case 9:
                     if (hasReceivedVelocity) {
                         if (player.onGround && player.hurtTime == 9 && player.isSprinting() && mc.currentScreen == null) {
-                            if (legitSmartJumpCount > legitSmartJumpLimit.getValue()) {
+                            if (legitSmartJumpCount >= legitSmartJumpLimit.getValue()) {
                                 legitSmartJumpCount = 0;
-                            } else {
+                            } else if (player.ticksExisted % 5 != 0) {
+                                player.jump();
                                 legitSmartJumpCount++;
-                                if (player.ticksExisted % 5 != 0) {
-                                    player.jump();
-                                }
                             }
-                        } else if (player.hurtTime == 8) {
                             hasReceivedVelocity = false;
-                            legitSmartJumpCount = 0;
+                        } else if (player.hurtTime <= 8) {
+                            hasReceivedVelocity = false;
                         }
                     }
                     break;
@@ -377,8 +394,12 @@ public class Velocity extends Module {
                         hasReceivedVelocity = false;
                     }
                     break;
-                case 26:
+                case 24:
                     if (!hasReceivedVelocity) break;
+                    if (velocityTimer.hasTimeElapsed(1000)) {
+                        hasReceivedVelocity = false;
+                        break;
+                    }
                     intaveTick++;
                     if (player.hurtTime == 2) {
                         intaveDamageTick++;
@@ -389,7 +410,7 @@ public class Velocity extends Module {
                         hasReceivedVelocity = false;
                     }
                     break;
-                case 22:
+                case 20:
                     if (hasReceivedVelocity) {
                         if (!((IAccessorEntityLivingBase) player).isJumping()
                                 && player.isSprinting()
@@ -402,15 +423,20 @@ public class Velocity extends Module {
                         hasReceivedVelocity = false;
                     }
                     break;
-                case 23:
+                case 21:
                     IAccessorTimer timer = (IAccessorTimer) ((IAccessorMinecraft) mc).getTimer();
-                    if (player.hurtTime == 9) timer.setTimerSpeed(intave14Timer1.getValue());
-                    else if (player.hurtTime >= 3 && player.hurtTime <= 8)
+                    if (player.hurtTime == 9) {
+                        timer.setTimerSpeed(intave14Timer1.getValue());
+                        intave14TimerActive = true;
+                    } else if (player.hurtTime >= 3 && player.hurtTime <= 8) {
                         timer.setTimerSpeed(intave14Timer2.getValue());
-                    else if (player.hurtTime == 2) timer.setTimerSpeed(1.0f);
-                    else timer.setTimerSpeed(1.0f);
+                        intave14TimerActive = true;
+                    } else if (intave14TimerActive) {
+                        timer.setTimerSpeed(1.0f);
+                        intave14TimerActive = false;
+                    }
                     break;
-                case 27:
+                case 25:
                     if (reduceRemainingAttackCount > 0) {
                         KillAura aura = (KillAura) Myau.moduleManager.modules.get(KillAura.class);
                         EntityLivingBase target = aura != null ? aura.getTarget() : null;
@@ -428,7 +454,7 @@ public class Velocity extends Module {
             }
         }
 
-        if (event.getType() == EventType.POST && mode.getValue() == 24) {
+        if (event.getType() == EventType.POST && mode.getValue() == 22) {
             if (jumpFlag) {
                 jumpFlag = false;
                 EntityPlayerSP player = mc.thePlayer;
@@ -441,15 +467,22 @@ public class Velocity extends Module {
 
     @EventTarget
     public void onTick(TickEvent event) {
+        if (event.getType() != EventType.PRE) return;
+
+        IAccessorTimer timer = (IAccessorTimer) ((IAccessorMinecraft) mc).getTimer();
         if (mode.getValue() == 14) {
-            IAccessorTimer timer = (IAccessorTimer) ((IAccessorMinecraft) mc).getTimer();
-            if (timerTicks > 0 && timer.getTimerSpeed() <= 1) {
-                float speed = 0.8f + (0.2f * (20 - timerTicks) / 20);
-                timer.setTimerSpeed(Math.min(speed, 1f));
+            if (timerTicks > 0) {
+                if (timer.getTimerSpeed() <= 1) {
+                    float speed = 0.8f + (0.2f * (20 - timerTicks) / 20);
+                    timer.setTimerSpeed(Math.min(speed, 1f));
+                }
                 --timerTicks;
-            } else if (timer.getTimerSpeed() <= 1) {
+            } else if (timer.getTimerSpeed() < 1) {
                 timer.setTimerSpeed(1f);
             }
+        } else if (timerTicks > 0) {
+            timerTicks = 0;
+            if (timer.getTimerSpeed() < 1) timer.setTimerSpeed(1f);
         }
     }
 
@@ -468,8 +501,18 @@ public class Velocity extends Module {
             IAccessorS12PacketEntityVelocity accessor = (IAccessorS12PacketEntityVelocity) packet;
 
             switch (mode.getValue()) {
-                case 24:
+                case 22:
+                    if (predictionFakeCheck.getValue() && !allowNext) {
+                        allowNext = true;
+                        return;
+                    }
+
+                    chanceCounter += predictionChance.getValue();
+                    if (chanceCounter < 100) return;
+                    chanceCounter -= 100;
+
                     double x = (double) packet.getMotionX() / 8000.0;
+                    double y = (double) packet.getMotionY() / 8000.0;
                     double z = (double) packet.getMotionZ() / 8000.0;
 
                     if (x != 0 || z != 0) {
@@ -477,41 +520,19 @@ public class Velocity extends Module {
                         shouldRotate = true;
                     }
 
-                    if (predictionFakeCheck.getValue() && !allowNext) {
-                        allowNext = true;
-                        return;
-                    }
+                    event.setCancelled(true);
+                    player.motionX = x * predictionHorizontal.getValue();
+                    player.motionY = y * predictionVertical.getValue();
+                    player.motionZ = z * predictionHorizontal.getValue();
+                    jumpFlag = true;
+                    allowNext = !predictionFakeCheck.getValue();
 
-                    allowNext = true;
-
-                    chanceCounter = (chanceCounter % 100) + predictionChance.getValue();
-                    if (chanceCounter >= 100) {
-                        jumpFlag = true;
-
-                        if (predictionHorizontal.getValue() > 0) {
-                            player.motionX = x * predictionHorizontal.getValue();
-                            player.motionZ = z * predictionHorizontal.getValue();
-                        } else {
-                            player.motionX = 0;
-                            player.motionZ = 0;
-                        }
-
-                        if (predictionVertical.getValue() > 0) {
-                            player.motionY = (double) packet.getMotionY() / 8000.0 * predictionVertical.getValue();
-                        } else {
-                            player.motionY = 0;
-                        }
-
-                        if (predictionDebug.getValue()) {
-                            player.addChatMessage(new net.minecraft.util.ChatComponentText(
-                                    String.format("Velocity (tick: %d, x: %.2f, y: %.2f, z: %.2f)",
-                                            player.ticksExisted,
-                                            x, (double) packet.getMotionY() / 8000.0, z
-                                    )
-                            ));
-                        }
-                    } else {
-                        event.setCancelled(true);
+                    if (predictionDebug.getValue()) {
+                        player.addChatMessage(new net.minecraft.util.ChatComponentText(
+                                String.format("Velocity (tick: %d, x: %.2f, y: %.2f, z: %.2f)",
+                                        player.ticksExisted, x, y, z
+                                )
+                        ));
                     }
                     break;
 
@@ -540,7 +561,7 @@ public class Velocity extends Module {
                     }
                     if (target == null) {
                         KillAura aura = (KillAura) Myau.moduleManager.modules.get(KillAura.class);
-                        if (aura.target != null && player.getDistanceToEntity(aura.target.getEntity()) <= grimRange.getValue()) {
+                        if (aura != null && aura.target != null && player.getDistanceToEntity(aura.target.getEntity()) <= grimRange.getValue()) {
                             target = aura.target.getEntity();
                         }
                     }
@@ -561,21 +582,25 @@ public class Velocity extends Module {
                         event.setCancelled(true);
                     }
                     break;
-                case 1:
                 case 5:
+                    if (shouldReverseVelocity(player)) {
+                        accessor.setMotionX(Math.round(-packet.getMotionX() * reverseStrength.getValue()));
+                        accessor.setMotionZ(Math.round(-packet.getMotionZ() * reverseStrength.getValue()));
+                    }
+                    break;
+                case 1:
                 case 6:
                 case 3:
                 case 9:
                 case 13:
-                case 19:
+                case 20:
                 case 21:
-                case 22:
                 case 23:
-                case 25:
-                case 26:
+                case 24:
                     hasReceivedVelocity = true;
+                    if (mode.getValue() == 24) intaveTick = 0;
                     break;
-                case 27:
+                case 25:
                     reduceRemainingAttackCount = reduceAttackCount.getValue();
                     break;
                 case 2:
@@ -612,7 +637,7 @@ public class Velocity extends Module {
                     break;
                 case 14:
                     if (player.onGround || player.fallDistance < 0.5) {
-                        hasReceivedVelocity = true;
+                        timerTicks = 20;
                         event.setCancelled(true);
                     }
                     break;
@@ -632,7 +657,7 @@ public class Velocity extends Module {
                     hasReceivedVelocity = true;
                     event.setCancelled(true);
                     break;
-                case 20:
+                case 19:
                     hasReceivedVelocity = true;
                     if (!player.onGround) {
                         if (!matrixAbsorbed) {
@@ -664,7 +689,7 @@ public class Velocity extends Module {
                 }
             } else if (mode.getValue() == 7) {
                 hasReceivedVelocity = true;
-            } else if (mode.getValue() == 24) {
+            } else if (mode.getValue() == 22) {
                 if (predictionDebug.getValue()) {
                     player.addChatMessage(new net.minecraft.util.ChatComponentText(
                             String.format("Explosion (tick: %d, x: %.2f, y: %.2f, z: %.2f)",
@@ -676,9 +701,9 @@ public class Velocity extends Module {
                     ));
                 }
 
-                if (predictionHorizontal.getValue() == 0 || predictionVertical.getValue() == 0) {
-                    event.setCancelled(true);
-                }
+                accessor.setField_149152_f(accessor.getField_149152_f() * predictionHorizontal.getValue());
+                accessor.setField_149153_g(accessor.getField_149153_g() * predictionVertical.getValue());
+                accessor.setField_149159_h(accessor.getField_149159_h() * predictionHorizontal.getValue());
             }
         }
 
@@ -706,6 +731,7 @@ public class Velocity extends Module {
     public void onAttack(AttackEvent event) {
         if (mode.getValue() == 13) {
             if (event.getTarget() instanceof EntityLivingBase && mc.thePlayer.hurtTime > 0) {
+                if (velocityTimer.hasTimeElapsed(1000)) return;
                 if (intaveNoAction()) return;
                 if (intaveChance.getValue() < 100 && RandomUtil.nextInt(0, 100) >= intaveChance.getValue()) return;
                 if (intaveReduceUnnecessarySlowdown.getValue() && intaveReduced) return;
@@ -746,13 +772,15 @@ public class Velocity extends Module {
                 }
                 matrixReduced = true;
             }
-        } else if (mode.getValue() == 26) {
+        } else if (mode.getValue() == 24) {
+            long now = System.currentTimeMillis();
+            boolean recentlyAttacked = lastAttackTime > 0 && now - lastAttackTime <= 8000L;
+            lastAttackTime = now;
             if (!hasReceivedVelocity) return;
-            if (mc.thePlayer.hurtTime == intaveReduceHurtTime.getValue() && System.currentTimeMillis() - lastAttackTime <= 8000L) {
+            if (mc.thePlayer.hurtTime == intaveReduceHurtTime.getValue() && recentlyAttacked) {
                 mc.thePlayer.motionX *= intaveReduceFactor.getValue();
                 mc.thePlayer.motionZ *= intaveReduceFactor.getValue();
             }
-            lastAttackTime = System.currentTimeMillis();
         }
     }
 
@@ -777,6 +805,17 @@ public class Velocity extends Module {
     @Override
     public String[] getSuffix() {
         return new String[]{CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, this.mode.getModeString())};
+    }
+
+    private boolean shouldReverseVelocity(EntityPlayerSP player) {
+        if (!onLook.getValue()) return true;
+
+        KillAura aura = (KillAura) Myau.moduleManager.modules.get(KillAura.class);
+        Entity target = aura != null && aura.target != null ? aura.target.getEntity() : null;
+        if (target == null) return true;
+
+        Rotation playerRotation = new Rotation(player.rotationYaw, player.rotationPitch);
+        return getRotationDifference(playerRotation, getRotations(target)) <= maxAngleDiff.getValue();
     }
 
     private Rotation getRotations(Entity entity) {
