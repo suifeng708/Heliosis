@@ -11,4 +11,10 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 public interface IAccessorC03PacketPlayer {
     @Accessor("onGround")
     void setOnGround(boolean boolean1);
+
+    @Accessor("y")
+    double getY();
+
+    @Accessor("y")
+    void setY(double y);
 }
